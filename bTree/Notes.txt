@@ -1,0 +1,19 @@
+﻿Red Black Binary tree
+
+Rules:
+1.  Root node is black
+2.  No red node having red children
+3.  Any path from root to any leaf has the same amount of black nodes
+
+Insert Scenarios:
+
+1.  Tree is empty:  
+	Create node, flip color from red to black
+2.  Parent of node is black
+	Insert the new node 
+3.	The uncle of node is red
+4.  Black -> right Red -> right Red
+5.  Black -> left Red -> left Red
+6.	Black -> right Red -> left Red
+7	Black -> left Red -> right Red
+	
