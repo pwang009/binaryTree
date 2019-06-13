@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace bTree
 {
@@ -8,6 +9,17 @@ namespace bTree
     {
         static void Main(string[] args)
         {
+            #region performance
+            Stopwatch watch;
+            Random random;
+            const int SIZE = 2000000;
+            int[] a = new int[SIZE];
+
+            watch = Stopwatch.StartNew();
+            random = new Random();
+            for (int i = 0; i < SIZE; i++) a[i] = random.Next(SIZE);
+            #endregion
+
             var bt = new BinaryTree<int>();
             //remove leaf only
             //bt.Add(80)          //root
@@ -41,9 +53,11 @@ namespace bTree
                 .Add(27)
                 .Remove(30)
                 ;
+
+            watch.Stop();
+            //Console.WriteLine("Done. Took {0} seconds", (double)watch.ElapsedMilliseconds / 1000.0);
             Console.WriteLine($"Total Number of Node: {bt.Count}");
             Console.WriteLine($"Min Value of Tree: {bt.MinValue}");
-            //Console.ReadKey();
         }
     }
 }

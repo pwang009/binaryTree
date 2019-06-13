@@ -19,6 +19,12 @@ namespace bTree
             Count = 0;
         }
 
+        public BinaryTree(T value)
+        {
+            root = new Node<T>(value);
+            Count++;
+        }
+
         public BinaryTree<T> Add(T value)
         {
             if (IsEmpty)
