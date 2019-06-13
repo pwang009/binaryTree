@@ -3,30 +3,27 @@
 namespace bTree
 {
     public enum NodeColor { RED, BLACK }
+    public enum DirectionFromParent { LEFT, RIGHT }
 
     public class Node<T> where T : IComparable
     {
         private T _value;
         public Node<T> Left;
         public Node<T> Right;
+        public Node<T> Parent { get; set; }
+        public T Value { get { return _value; } set { _value = value; } }
         public NodeColor Color { get; set; }
         public bool IsLeaf => (Left == null) && (Right == null);
+        public DirectionFromParent NodeDirectionFromParent;
 
         public Node(T value)
         {
             _value = value;
-            Left = null;
-            Right = null;
+            Left = Right = Parent = null;
             Color = NodeColor.RED;
         }
 
         public Node() { }
-        public bool Search(Node<T> node, T obj)
-        {
-            if (node == null) { return false; }
-            if (node._value.CompareTo(obj) == 0) { return true; }
-            return node._value.CompareTo(obj) == 1 ? Search(Left, obj) : Search(Right, obj);
-        }
 
         public override bool Equals(object obj)
         {
