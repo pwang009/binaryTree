@@ -1,4 +1,5 @@
 ﻿using BinaryTree.Core;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
 
@@ -8,10 +9,32 @@ namespace bTree
 
     class Program
     {
+        private static ServiceProvider _serviceProvider;
+
         static void Main(string[] args)
         {
-            var bt = new BinaryTree<double>();
+            //var bt = new BinaryTree<double>();
+            RegisterServices();
+            var service = _serviceProvider.GetService<IBinaryTree<int>>();
+            PerformanceTest(service);
+            DisposeServices();
+        }
 
+        private static void DisposeServices()
+        {
+            if (_serviceProvider == null) return;
+            if (_serviceProvider is IDisposable) ((IDisposable)_serviceProvider).Dispose();
+        }
+
+        private static void RegisterServices()
+        {
+            var collection = new ServiceCollection();
+            collection.AddScoped<IBinaryTree<int>, BinaryTree<int>>();
+            _serviceProvider = collection.BuildServiceProvider();
+        }
+
+        private static void PerformanceTest(IBinaryTree<int> bt)
+        {
             #region performance
             Stopwatch watch;
             Random random;
@@ -20,7 +43,7 @@ namespace bTree
 
             watch = Stopwatch.StartNew();
             random = new Random();
-            for (int i = 0; i < SIZE; i++) bt.Add( random.Next(0, SIZE-1) );
+            for (int i = 0; i < SIZE; i++) bt.Add(random.Next(0, SIZE - 1));
             #endregion
 
             watch.Stop();
