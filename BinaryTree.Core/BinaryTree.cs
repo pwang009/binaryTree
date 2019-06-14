@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace bTree
+namespace BinaryTree.Core
 {
-    public class BinaryTree<T> where T : IComparable
+    public class BinaryTree<T> : IBinaryTree<T> where T : IComparable
     {
-        private Node<T> root;
+        private Node<T> _root;
         private PrintMessage printMessage = Utilities.ConsolePrint;
-        private bool IsEmpty => root == null;
-        private bool IsRoot => root.Parent == null;
+        private bool IsEmpty => _root == null;
+        private bool IsRoot => _root.Parent == null;
 
-        public T MinValue => minValue(root).Value;
+        public T MinValue => minValue(_root).Value;
+        public T MaxValue => maxValue(_root).Value;
+
         public int Count { get; private set; }
+        public int Depth => depth(_root);
 
         public BinaryTree()
         {
-            root = null;
+            _root = null;
             Count = 0;
         }
 
         public BinaryTree(T value)
         {
-            root = new Node<T>(value);
+            _root = new Node<T>(value);
             Count++;
         }
 
@@ -31,20 +34,19 @@ namespace bTree
             {
                 var nodeToInsert = new Node<T>(value);
                 //tree is empty
-                root = nodeToInsert;
-                root.Parent = null;
-                root.Color = NodeColor.BLACK;
+                _root = nodeToInsert;
+                _root.Parent = null;
+                _root.Color = NodeColor.BLACK;
                 Count++;
                 printMessage($"{nodeToInsert} added as Root");
             }
-            else insert(root, value);
+            else insert(_root, value);
             return this;
         }
 
         public BinaryTree<T> Remove(T value)
         {
-            var nodeToFind = new Node<T>(value);
-            var nodeToRemove = Find(root, nodeToFind);
+            var nodeToRemove = Find(value);
             if (nodeToRemove != null)
             {
                 //case #1: node is leaf
@@ -91,16 +93,19 @@ namespace bTree
             return this;
         }
 
-        private Node<T> Find(Node<T> node, Node<T> nodeToFind)
+        public Node<T> Find(T value) => find(_root, new Node<T>(value));
+
+        private Node<T> find(Node<T> node, Node<T> nodeToFind)
         {
             if (node == null) return null;
 
             if (node == nodeToFind) return node;
-            else if (node < nodeToFind) return Find(node.Right, nodeToFind);
-            else return Find(node.Left, nodeToFind);
+            else if (node < nodeToFind) return find(node.Right, nodeToFind);
+            else return find(node.Left, nodeToFind);
         }
 
         private Node<T> minValue(Node<T> node) => node.Left == null ? node : minValue(node.Left);
+        private Node<T> maxValue(Node<T> node) => node.Right == null ? node : maxValue(node.Right);
 
         private Node<T> insert(Node<T> node, T value)
         {
@@ -118,9 +123,7 @@ namespace bTree
                     printMessage($"{nodeToInsert} added to right of Parent: {node} ");
                 }
                 else
-                {
                     insert(node.Right, value);
-                }
             }
             //go to left
             else if (nodeToInsert < node)
@@ -140,6 +143,18 @@ namespace bTree
             else printMessage($"duplicate value {nodeToInsert} ignored");
             return node;
         }
+
+        private int depth(Node<T> node)
+        {
+            if (node == null) return 0;
+            else
+            {
+                var lDepth = depth(node.Left);
+                var rDepth = depth(node.Right);
+                return 1 + (lDepth >= rDepth ? lDepth : rDepth);
+            }
+        }
+
     }
 }
 

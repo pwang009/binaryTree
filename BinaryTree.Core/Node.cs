@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace bTree
+namespace BinaryTree.Core
 {
     public enum NodeColor { RED, BLACK }
     public enum DirectionFromParent { LEFT, RIGHT }
 
-    public class Node<T> where T : IComparable
+    public class Node<T> : INode<T> where T : IComparable
     {
         private T _value;
         public Node<T> Left;
