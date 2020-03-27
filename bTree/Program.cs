@@ -20,19 +20,7 @@ namespace bTree
             DisposeServices();
         }
 
-        private static void DisposeServices()
-        {
-            if (_serviceProvider == null) return;
-            if (_serviceProvider is IDisposable) ((IDisposable)_serviceProvider).Dispose();
-        }
-
-        private static void RegisterServices()
-        {
-            var collection = new ServiceCollection();
-            collection.AddScoped<IBinaryTree<int>, BinaryTree<int>>();
-            _serviceProvider = collection.BuildServiceProvider();
-        }
-
+        
         private static void PerformanceTest(IBinaryTree<int> bt)
         {
             #region performance
@@ -53,5 +41,18 @@ namespace bTree
             Console.WriteLine($"Min Value of Tree: {bt.MinValue}");
             Console.WriteLine($"Min Value of Tree: {bt.MaxValue}");
         }
+
+        private static void DisposeServices()
+        {
+            if (_serviceProvider != null && _serviceProvider is IDisposable) ((IDisposable)_serviceProvider).Dispose();
+        }
+
+        private static void RegisterServices()
+        {
+            var collection = new ServiceCollection();
+            collection.AddScoped<IBinaryTree<int>, BinaryTree<int>>();
+            _serviceProvider = collection.BuildServiceProvider();
+        }
+
     }
 }
