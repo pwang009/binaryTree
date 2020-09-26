@@ -99,9 +99,12 @@ namespace BinaryTree.Core
         {
             if (node == null) return null;
 
-            if (node == nodeToFind) return node;
-            else if (node < nodeToFind) return find(node.Right, nodeToFind);
-            else return find(node.Left, nodeToFind);
+            //if (node == nodeToFind) return node;
+            //else if (node < nodeToFind) return find(node.Right, nodeToFind);
+            //else return find(node.Left, nodeToFind);
+            if (node < nodeToFind) return find(node.Right, nodeToFind);
+            else if (node > nodeToFind) return find(node.Left, nodeToFind);
+            else return node;
         }
 
         private Node<T> minValue(Node<T> node) => node.Left == null ? node : minValue(node.Left);

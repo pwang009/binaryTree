@@ -6,7 +6,7 @@ namespace BinaryTree.Core
 
     public class Utilities
     {
-        //public static void ConsolePrint(string value) => Console.WriteLine(value);
-        public static void ConsolePrint(string value) { }
+        public static void ConsolePrint(string value) => Console.WriteLine(value);
+        //public static void ConsolePrint(string value) { }
     }
 }

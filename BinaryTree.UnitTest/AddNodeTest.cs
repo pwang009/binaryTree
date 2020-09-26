@@ -6,13 +6,13 @@ namespace BinaryTree.UnitTest
     [TestClass]
     public class AddNodeTest
     {
-        private IBinaryTree<int> _bt;
+        //private IBinaryTree<int> _bt;
 
-        //private BinaryTree<int> _bt = new BinaryTree<int>();
-        public AddNodeTest(IBinaryTree<int> bt)
-        {
-            _bt = bt;
-        }
+        private BinaryTree<int> _bt = new BinaryTree<int>();
+        //public AddNodeTest(IBinaryTree<int> bt)
+        //{
+        //    _bt = bt;
+        //}
         public AddNodeTest()
         {
 
